@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.hibernate.test.cache.infinispan.functional.entities">
+	<class name="com.demo.pojo.User" table="user">
+		<id name="id"  type="java.lang.Long">
+			<!-- 主键生成策略 -->
+			<generator class="identity"/> <!--  自增 -->
+		</id>
+		<!-- 实体类属性 -->
+		<property name="name" type="java.lang.String"/>
+		<property name="pwd" type="java.lang.String"/>		
+	</class>
+</hibernate-mapping>

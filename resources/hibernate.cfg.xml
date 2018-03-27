@@ -1,0 +1,38 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- 第一部分:数据连接配置 -->
+		<property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="connection.url">jdbc:mysql://localhost:3306/hibernate_test</property>
+		<property name="connection.username">json</property>
+		<property name="connection.password">123456</property>
+		
+		
+		<!-- 第二部分：其他相关配置 -->
+		<!-- 数据库方言  - 配置hibernate方言，可针对特定的数据库优化。  -->
+		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<!-- 是否在运行时候sql语句输出到控制台，编码阶段便于测试的。（默认设置为true）-->
+		<property name="show_sql">true</property>
+		<!-- 输出在控制台sql语句是否进行格式化，便于阅读。（默认设置为true） -->
+		<property name="format_sql">true</property>
+		<!-- 
+			可帮助由java代码生成数据库脚本，进而生成具体表结构。如：create/update/create-drop/validate
+				create： 每次都重新建表，原来的表删除，同时数据全部清楚重新插入数据。（每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。）  
+				create-drop： 每次在创建sessionFactory时执行创建表，当调用sessionFactory的close方法的时候，删除表       (在实际项目中不用)
+				update: 只是根据映射文件去和数据库中的表对应起来，如果不一致，就更新表的结构
+				validate： 加载hibernate时，验证创建数据库表结构，如果是不同的话则不创建表。
+				
+			PS:
+				1.请慎重使用 hbm2ddl.auto 此参数，没必要就不要随便用。  
+				2.如果发现数据库表丢失，请检查hibernate.hbm2ddl.auto的配置  
+		-->
+		<property name="hbm2ddl.auto">update</property>
+		
+		
+		<!-- 第三部分:加载所有的映射（*.hbm.xml） -->
+		<mapping resource="com/demo/pojo/User.hbm.xml"></mapping>
+	</session-factory>
+</hibernate-configuration>
