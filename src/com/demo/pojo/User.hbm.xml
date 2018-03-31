@@ -3,14 +3,46 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping package="org.hibernate.test.cache.infinispan.functional.entities">
-	<class name="com.demo.pojo.User" table="user">
-		<id name="id"  type="java.lang.Long">
-			<!-- 主键生成策略 -->
-			<generator class="identity"/> <!--  自增 -->
+<!-- 
+	package用于定义包的，那么class就不用写包名路径了 
+	schema指数据库模式，一个模式下可以有多张表
+-->
+<hibernate-mapping package="com.demo.pojo" >
+	<!-- 
+		class映射一个实体类
+		提供了公共的无参构造方法  - 通过反射产生对象
+		属性用private修饰，并且生成对应的get、set方法
+		类不能用final修饰  - hibernate会产生代理类（cglib）
+		类需要指定标识 - 主键
+		name表示实体类的类名
+		table表示数据库对应的表名，如果不写默认是类名
+	 -->
+	<class name="User" table="user">
+		<!-- 
+			id表示实体类的标识（OID） - 对应数据库表中的主键
+			name实体类的标识属性名
+			column表示数据库表中的列名，如果不写则数据库列名与属性名一致
+			length 表示数据库表中对应数据类型的长度，如果不写有默认长度
+			type表示类型，如果不写，hibernate自动根据实体类的字段类型确定
+		 -->
+		<id name="id" column="id">
+			<!-- 
+				主键生成策略
+				increment： 由hibernate管理主键，自动以递增的方式生成标识符，每次增量为1（id+1作为主键）；用于long，short，int类型生成自增主键（注意：集群下不能使用；原因：每次生成前，会去查询最大的id）
+				identity： 由底层数据库生成主键。identity是由数据库自己生成的，但这个主键必须设置为自增长，前提条件是底层数据库支持自动增长字段类型  ,一般来说像SQL Server，MYSQL这类的数据库都是选择identity
+				sequence：采用数据库提供的sequence机制生成主键。如oralce中的sequence
+				hilo： 通过hi/lo算法实现的主键生成机制，需要额外的数据库表或字段提供高位值来源
+				native：  hibernate根据使用的数据库自行判断采用identity、hilo、sequence其中一种作为主键生成方式。 在hibernate配置中native是默认的，泛指的自增，也就是说除了oracle数据库外（oracle下用native需要用到一个叫hibernate_sequence的sequence），大部分数据库你都可以使用默认的native来代表自增。
+				assigned：主键由外部程序负责生成，在save()之前手动指定一个
+			-->
+			<generator class="native"/> <!--  自增 -->
 		</id>
-		<!-- 实体类属性 -->
-		<property name="name" type="java.lang.String"/>
-		<property name="pwd" type="java.lang.String"/>		
+		<!-- 
+			实体类属性
+			name：指明实体类属性名（区分大小写）
+			另外：<property name="name"><column name="name"></column></property>,通过column指定数据库列名
+		-->
+		<property name="name"/>
+		<property name="pwd"/>		
 	</class>
 </hibernate-mapping>
