@@ -20,7 +20,7 @@
 		<property name="format_sql">true</property>
 		<!-- 
 			可帮助由java代码生成数据库脚本，进而生成具体表结构。如：create/update/create-drop/validate
-				create： 每次都重新建表，原来的表删除，同时数据全部清楚重新插入数据。（每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。）  
+				create： 每次都重新建表，原来的表删除，同时数据全部清除重新插入数据。（每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。）  
 				create-drop： 每次在创建sessionFactory时执行创建表，当调用sessionFactory的close方法的时候，删除表       (在实际项目中不用)
 				update: 只是根据映射文件去和数据库中的表对应起来，如果不一致，就更新表的结构
 				validate： 加载hibernate时，验证创建数据库表结构，如果是不同的话则不创建表。

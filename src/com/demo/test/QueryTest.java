@@ -46,7 +46,7 @@ public class QueryTest {
 		User user = new User();
 		user.setName("张三");
 		user.setPwd("123456");
-		session.save(user);
+		session.persist(user);
 		//6、提交事务
 		transaction.commit();
 		//7、关闭Session
